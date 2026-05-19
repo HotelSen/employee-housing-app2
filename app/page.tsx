@@ -1,64 +1,57 @@
 'use client';
-
-import { useState } from 'react';
-
-export default function HomePage() {
-  const [tab, setTab] = useState('dashboard');
-
-  return (
-    <main className="min-h-screen bg-slate-950 text-white p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <header className="rounded-3xl bg-slate-900 p-6">
-          <h1 className="text-4xl font-bold">
-            Zaměstnanecké ubytování
-          </h1>
-          <p className="mt-2 text-slate-400">
-            Interní rezervační systém
-          </p>
-        </header>
-
-        <section className="rounded-3xl bg-slate-900 p-4 flex gap-3 flex-wrap">
-          {['dashboard', 'rooms', 'approval', 'history'].map((item) => (
-            <button
-              key={item}
-              onClick={() => setTab(item)}
-              className={`rounded-2xl px-5 py-3 ${
-                tab === item
-                  ? 'bg-blue-600'
-                  : 'bg-slate-800'
-              }`}
-            >
-              {item}
-            </button>
-          ))}
-        </section>
-
-        <section className="grid md:grid-cols-3 gap-4">
-          <div className="rounded-3xl bg-slate-900 p-5">
-            <p className="text-slate-400">Obsazené pokoje</p>
-            <p className="text-4xl font-bold text-red-400 mt-2">3</p>
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
+        )}
 
-          <div className="rounded-3xl bg-slate-900 p-5">
-            <p className="text-slate-400">Volné pokoje</p>
-            <p className="text-4xl font-bold text-green-400 mt-2">2</p>
+        {tab === 'history' && (
+          <div className="bg-slate-900 rounded-3xl p-6">
+            <h2 className="text-3xl font-bold mb-6">
+              Historie rezervací
+            </h2>
+
+            <div className="space-y-4">
+              {reservations.map((reservation) => (
+                <div
+                  key={reservation.id}
+                  className="bg-slate-950 border border-slate-800 rounded-3xl p-5 flex items-center justify-between"
+                >
+                  <div>
+                    <h3 className="font-bold text-lg">
+                      {reservation.employee}
+                    </h3>
+
+                    <p className="text-slate-400 mt-2">
+                      Pokoj {reservation.room}
+                    </p>
+                  </div>
+
+                  <div>
+                    {reservation.status === 'approved' && (
+                      <div className="bg-green-500/20 text-green-300 px-4 py-2 rounded-full">
+                        Schváleno
+                      </div>
+                    )}
+
+                    {reservation.status === 'pending' && (
+                      <div className="bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full">
+                        Pending
+                      </div>
+                    )}
+
+                    {reservation.status === 'rejected' && (
+                      <div className="bg-gray-500/20 text-gray-300 px-4 py-2 rounded-full">
+                        Zamítnuto
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-
-          <div className="rounded-3xl bg-slate-900 p-5">
-            <p className="text-slate-400">Pending rezervace</p>
-            <p className="text-4xl font-bold text-yellow-400 mt-2">1</p>
-          </div>
-        </section>
-
-        <section className="rounded-3xl bg-slate-900 p-6">
-          <h2 className="text-2xl font-bold mb-4">
-            MVP aplikace připravena
-          </h2>
-
-          <p className="text-slate-300">
-            Projekt je připraven pro napojení na Supabase a deploy na Vercel.
-          </p>
-        </section>
+        )}
       </div>
     </main>
   );
